@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="StudySpring01-BeanReg" />
+        <module name="StudySpring02-annotation" />
+        <module name="StudySpring02-Annotation" />
+        <module name="StudySpring03-Web" />
+        <module name="StudySpring04-conformJunit" />
+        <module name="StudySpring05-JDKProxy" />
+        <module name="StudySpring06-CglibProxy" />
+        <module name="StudySpring07-AOP" />
+        <module name="StudySpring08-ConformAspectJ" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="learnSpring" target="1.5" />
+      <module name="StudySpring-BeanReg" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

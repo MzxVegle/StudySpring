@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--1、配置目标target-->
+    <bean id="userServices" class="com.Vegle.Implements.UserServicesImpl"></bean>
+    <!--2、通知-->
+    <bean id="userServicesAdvice" class="com.Vegle.Advices.UserServicesAdvice"></bean>
+    <!--使用一个aop:config来配置切面-->
+    <aop:config>
+        <aop:aspect ref="userServicesAdvice">
+            <aop:pointcut id="test" expression="execution(* *.*(..))"></aop:pointcut>
+            <aop:before method="before" pointcut-ref="test"></aop:before>
+
+            <aop:after-returning method="afterReturing" pointcut-ref="test" returning="value"></aop:after-returning>
+            <aop:around method="around" pointcut-ref="test"></aop:around>
+            <!--
+                after是最终通知的意思
+                无论是否有异常最终通知after都会执行
+                相当于try catch final中的final
+            -->
+            <aop:after method="after" pointcut-ref="test"></aop:after>
+        </aop:aspect>
+    </aop:config>
+</beans>

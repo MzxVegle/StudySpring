@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="testBean01" class="com.Vegle.Beans.TestBean01">
+        <!--用setter方法注入（是开发中最常用的注入方式）-->
+        <property name="name" value="Vegle"></property>
+    </bean>
+    <!--p名称空间主要解决setter注入-->
+    <bean id="people2" class="com.Vegle.Beans.People" p:name="好人" p:age="15" p:sex="男" p:car-ref="car"></bean>
+    <bean id="car" class="com.Vegle.Beans.Car" >
+        <!--
+            用构造器来注入属性值
+            用构造器中有几个参数
+            name:指定参数的名称
+            value:指定参数的值
+            type:参数类型
+            index:指定参数的顺序位置
+            当然value可以当作子节点使用,例如第一个例子
+        -->
+        <constructor-arg name="name" >
+            <value>长安</value>
+        </constructor-arg>
+        <constructor-arg name="max" value="190"/>
+        <constructor-arg name="price" value="190000"/>
+    </bean>
+    <bean id="car2" class="com.Vegle.Beans.Car" >
+        <constructor-arg name="name" >
+            <value>奥迪</value>
+        </constructor-arg>
+        <constructor-arg name="max" value="190"/>
+        <constructor-arg name="price" value="190000"/>
+    </bean>
+    <bean id="car3" class="com.Vegle.Beans.Car" >
+        <constructor-arg name="name" >
+            <value>宝马</value>
+        </constructor-arg>
+        <constructor-arg name="max" value="190"/>
+        <constructor-arg name="price" value="190000"/>
+    </bean>
+    <bean id="car4" class="com.Vegle.Beans.Car" c:name="大众" c:max="160" c:price="100000"></bean>
+    <!--scope(作用域)
+        singleton(单例模式):代表在IOC容器中只有一个bean的实例(spring默认作用域模式)
+        prototype(多例模式):每次在IOC容器中取bean时，都会返回一个新的实例
+        request:用在web开发中，将bean对象通过request.getAttribute()存储到request中
+        session:用在web开发中，将bean对象通过session.getAttribute()存储到session中
+    -->
+    <bean class="com.Vegle.Beans.People" id="people" scope="singleton">
+        <property name="name" value="Vegle"></property>
+        <property name="age" value="22"></property>
+        <property name="car" ref="car"></property>
+        <property name="sex" >
+            <value>男</value>
+        </property>
+    </bean>
+
+    <!--集合属性的注入-->
+    <bean id="collectionInject" class="com.Vegle.Beans.CollectionInject">
+        <!--List属性可以使用list标签，如果属性是数组，也可以使用list标签-->
+        <property name="list">
+            <list>
+                <value>A</value>
+                <value>23</value>
+                <ref bean="car"></ref>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>B</value>
+                <value>30</value>
+                <ref bean="car2"></ref>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="username" value="C"></entry>
+                <entry key="age" value="20"></entry>
+                <entry key="car" value-ref="car3"></entry>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="username">D</prop>
+                <prop key="age">25</prop>
+            </props>
+        </property>
+    </bean>
+    <!--spel表达式-->
+    <bean id="people3" class="com.Vegle.Beans.People" >
+        <property name="name" value="#{people.name}"/>
+        <property name="sex" value="#{people.sex}"/>
+        <property name="car" value="#{car4}"/>
+        <property name="age" value="#{people.age}"/>
+    </bean>
+</beans>
