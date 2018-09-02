@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <!--1、引入外部属性文件-->
+        <context:property-placeholder location="connectInfo.properties"/>
+        <!--2、配置连接池dataSource-->
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <property name="driverClassName" value="${jdbc.driverClassName}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+        </bean>
+        <!--3、配置SqlSessionFactoryBean-->
+        <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+                <property name="dataSource" ref="dataSource"/>
+                <property name="configLocation" value="classpath:MybatisConfig.xml"/>
+        </bean>
+        <!--4、配置Mapper接口自动扫描-->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+                <property name="basePackage" value="com.Vegle.Dao"/>
+        </bean>
+        <bean id="accountServices" class="com.Vegle.Services.AccountServicesImpl"></bean>
+
+        <!--1、配置事务管理-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+        <!--&lt;!&ndash;2、配置通知&ndash;&gt;-->
+        <!--<tx:advice id="interceptor" transaction-manager="dataSourceTransactionManager">-->
+            <!--<tx:attributes>-->
+                <!--&lt;!&ndash;name：必须的，表示对哪些方法进行事务控制-->
+                <!--isolation：可选，设置事务的隔离级别，默认值为Default-->
+                <!--propagation：可选，设置事务的传播行为，默认值为REQUIRED-->
+                <!--timeout:可选，设置超时时间，默认值为-1，表示使用数据库自身的超市时间-->
+                <!--read-only:可选，设置读写权限，默认值为false，若为true则只能用读取操作-->
+                <!--rollback-for:可选，可以设置异常，如果产生这个异常则会触发事务回滚-->
+                <!--no-rollback-for:可选，可以设置一个异常，如果产生这个异常则不会出发事务回滚-->
+                <!--&ndash;&gt;-->
+                <!--<tx:method name="account" />-->
+            <!--</tx:attributes>-->
+        <!--</tx:advice>-->
+        <!--&lt;!&ndash;3、配置切面&ndash;&gt;-->
+        <!--<aop:config>-->
+            <!--<aop:pointcut id="pointcut" expression="execution(* com.Vegle.Services.*.*(..))"/>-->
+            <!--<aop:advisor advice-ref="interceptor" pointcut-ref="pointcut"/>-->
+        <!--</aop:config>-->
+    <tx:annotation-driven ></tx:annotation-driven>
+</beans>

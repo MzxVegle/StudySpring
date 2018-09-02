@@ -15,6 +15,10 @@
         <module name="StudySpring06-CglibProxy" />
         <module name="StudySpring07-AOP" />
         <module name="StudySpring08-ConformAspectJ" />
+        <module name="StudySpring09-AnnotationAOP" />
+        <module name="StudySpring10-JDBCTemplate" />
+        <module name="StudySpring11-ComformMybatis" />
+        <module name="StudySpring12-Transaction" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

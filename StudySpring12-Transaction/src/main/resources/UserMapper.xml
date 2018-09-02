@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Vegle.Dao.IAccountDao">
+    <select id="select" resultType="User">
+        select * from t_user_account
+    </select>
+    <update id="inmoney" >
+      update t_user_account set money = money+#{arg1} where name = #{arg0}
+    </update>
+    <update id="outmoney" >
+      update t_user_account set money = money-#{arg1} where name = #{arg0}
+    </update>
+
+</mapper>

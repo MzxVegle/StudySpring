@@ -11,14 +11,18 @@
     <bean id="userServices" class="com.Vegle.Implements.UserServicesImpl"></bean>
     <!--2、通知-->
     <bean id="userServicesAdvice" class="com.Vegle.Advices.UserServicesAdvice"></bean>
-    <!--使用一个aop:config来配置切面-->
-    <aop:config>
+    <!--使用一个aop:config来配置切面
+        proxy-target-class:默认值为false，它表示表示有接口使用JDKproxy代理
+        若为true，则会使用Cglib的动态代理模式（不考虑是否有接口）
+    -->
+
+    <aop:config proxy-target-class="true">
         <aop:aspect ref="userServicesAdvice">
             <aop:pointcut id="test" expression="execution(* *.*(..))"></aop:pointcut>
             <aop:before method="before" pointcut-ref="test"></aop:before>
-
             <aop:after-returning method="afterReturing" pointcut-ref="test" returning="value"></aop:after-returning>
             <aop:around method="around" pointcut-ref="test"></aop:around>
+            <aop:after-throwing method="throwing" pointcut-ref="test" throwing="ex"></aop:after-throwing>
             <!--
                 after是最终通知的意思
                 无论是否有异常最终通知after都会执行
